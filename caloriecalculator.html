@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maintenance Calorie Calculator</title>
+  <style>
+    body {
+      background: #1e1e2f;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: #2b2b3d;
+      padding: 30px;
+      border-radius: 15px;
+      width: 400px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    .calculator h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #40405c;
+      color: #f4f4f4;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .result {
+      margin-top: 20px;
+      background: #34344e;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .result p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Calorie Maintenance Calculator</h2>
+    <label>Age</label>
+    <input type="number" id="age" placeholder="Enter your age" />
+
+    <label>Gender</label>
+    <select id="gender">
+      <option value="1">Male</option>
+      <option value="2">Female</option>
+    </select>
+
+    <label>Height (in cm)</label>
+    <input type="number" id="height" placeholder="Enter your height in cm" />
+
+    <label>Weight (in kg)</label>
+    <input type="number" id="weight" placeholder="Enter your weight in kg" />
+
+    <label>Activity Level</label>
+    <select id="activity">
+      <option value="1">Less active</option>
+      <option value="2">Moderately active</option>
+      <option value="3">Very active (Athlete level)</option>
+    </select>
+
+    <button onclick="calculateCalories()">Calculate</button>
+
+    <div class="result" id="resultBox">
+      <p id="maintenance"></p>
+      <p id="mildLoss"></p>
+      <p id="extremeLoss"></p>
+      <p id="lightBulk"></p>
+      <p id="heavyBulk"></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateCalories() {
+      const age = parseInt(document.getElementById('age').value);
+      const gender = parseInt(document.getElementById('gender').value);
+      const height = parseInt(document.getElementById('height').value);
+      const weight = parseInt(document.getElementById('weight').value);
+      const activity = parseInt(document.getElementById('activity').value);
+
+      let bmr = 0;
+      if (gender === 1) {
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+      } else {
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+      }
+
+      if (activity === 1) {
+        bmr *= 1.2;
+      } else if (activity === 2) {
+        bmr *= 1.4;
+      } else if (activity === 3) {
+        bmr *= 2.0;
+      }
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.style.display = 'block';
+
+      document.getElementById('maintenance').innerText = `Your maintenance calories: ${bmr.toFixed(2)} kcal`;
+      document.getElementById('mildLoss').innerText = `For mild weight loss: ${(bmr - 500).toFixed(2)} kcal`;
+      document.getElementById('extremeLoss').innerText = `For extreme weight loss: ${(bmr - 1000).toFixed(2)} kcal`;
+      document.getElementById('lightBulk').innerText = `For light bulk: ${(bmr + 500).toFixed(2)} kcal`;
+      document.getElementById('heavyBulk').innerText = `For heavy bulk: ${(bmr + 1000).toFixed(2)} kcal`;
+    }
+  </script>
+</body>
+</html>
